@@ -71,6 +71,10 @@ the default output edge limit is 1024 pixels.
 
 ## 15-scene results
 
+We compare Codex, SoL-Pi and SoL-Pi Visual on 15 Blender scene reconstructions.
+The table reports average visual scores, recorded fees and call counts; the figures
+show sample reconstructions, aggregate results and per-scene visual scores.
+
 Model: **GPT-6 Astra**, high reasoning effort. The comparison uses 15 scenes:
 five each from ARKitScenes, ScanNet++ and ScanNet, selected from
 [VSI-Bench](https://huggingface.co/datasets/nyu-visionx/VSI-Bench).
