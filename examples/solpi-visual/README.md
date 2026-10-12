@@ -75,18 +75,12 @@ Model: **GPT-6 Astra**, high reasoning effort. The comparison uses 15 scenes:
 five each from ARKitScenes, ScanNet++ and ScanNet, selected from
 [VSI-Bench](https://huggingface.co/datasets/nyu-visionx/VSI-Bench).
 
-| Method | Mean model-graded visual score ↑ | Recorded fee / scene ↓ | Calls / scene ↓ |
-| --- | ---: | ---: | ---: |
-| Codex | 76.87 | 8.95 | 71.53 |
-| SoL-Pi | 75.80 | 9.53 | 100.53 |
-| SoL-Pi Visual | 70.35 | 5.60 | 62.00 |
+Average model-graded visual scores, recorded fees and call counts across 15 scenes.
+
+![Average visual scores, recorded fees and call counts](assets/results.png)
 
 SoL-Pi Visual uses all three settings above in this comparison.
 
 Reconstructions of Scene 2 and Scene 3 by Codex, SoL-Pi and SoL-Pi Visual.
 
 ![Scene 2 and Scene 3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](assets/scene-comparison.jpg)
-
-Average visual scores, recorded fees and call counts, with visual scores for all 15 scenes.
-
-![Aggregate results and visual scores for all 15 scenes](assets/results.png)
