@@ -41,8 +41,7 @@ cd /path/to/scene-project
 
 `--approve` trusts the project; use it only for projects you trust. Configure the
 base SoL-Pi features using the [root README](../../README.md), and select your model
-and authentication through Pi. This example uses the parent's installed Pi
-(currently tested with 0.85.1) and does not install another copy.
+and authentication through Pi. Tested with Pi 0.85.1.
 
 Give the agent a reference video or images and a task, for example:
 
@@ -53,7 +52,7 @@ Give the agent a reference video or images and a task, for example:
 | Setting | Effect |
 | --- | --- |
 | `localEditScope` | Focus each edit on one visual discrepancy while keeping the whole-scene requirements. |
-| `magnify` | Crop an existing reference or render for closer inspection; no new detail is generated. |
+| `magnify` | Crop a reference image or render for closer inspection. |
 | `awaitRender` | Wait for render/build results when there is no independent work, reducing polling-only turns. |
 
 All switches default to `false`. They only take effect in a trusted project;
@@ -68,7 +67,7 @@ A `magnify` call uses pixel coordinates `[left, top, right, bottom]`:
 ```
 
 For paired inspection, add `reference` and `referenceBbox`. Inputs must be PNG/JPEG;
-the default output edge limit is 1024 pixels. Source images are left unchanged.
+the default output edge limit is 1024 pixels.
 
 ## 15-scene results
 
@@ -76,7 +75,7 @@ Model: **GPT-6 Astra**, high reasoning effort. The comparison uses 15 scenes:
 five each from ARKitScenes, ScanNet++ and ScanNet, selected from
 [VSI-Bench](https://huggingface.co/datasets/nyu-visionx/VSI-Bench).
 
-| Method | Mean visual score ↑ | Recorded fee / scene ↓ | Calls / scene ↓ |
+| Method | Mean model-graded visual score ↑ | Recorded fee / scene ↓ | Calls / scene ↓ |
 | --- | ---: | ---: | ---: |
 | Codex | 76.87 | 8.95 | 71.53 |
 | SoL-Pi | 75.80 | 9.53 | 100.53 |
@@ -84,19 +83,11 @@ five each from ARKitScenes, ScanNet++ and ScanNet, selected from
 
 SoL-Pi Visual uses all three settings above in this comparison.
 
-Selected experiment snapshots, including recovery outputs; scores are model-graded
-and fees are recorded subtotals. These experiments were not rerun for this example.
+![Scene 2 and Scene 3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](assets/scene-comparison.jpg)
 
-![V2 and V3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](assets/scene-comparison.jpg)
-
-V2 and V3 rendered snapshots. Each method uses its own camera;
-the views are not strictly aligned.
+Scene 2 and Scene 3.
 
 ![Aggregate results and visual scores for all 15 scenes](assets/results.png)
 
 [Per-scene results](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.json)
 and [CSV](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.csv).
-
-[Videos](https://huggingface.co/datasets/Belta/solpi-visual) (access required):
-30-second VSI-Bench reference clips and Blender reconstruction exports from
-Codex and SoL-Pi.
