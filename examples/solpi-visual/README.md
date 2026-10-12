@@ -87,17 +87,16 @@ SoL-Pi Visual uses all three settings above in this comparison.
 Selected experiment snapshots, including recovery outputs; scores are model-graded
 and fees are recorded subtotals. These experiments were not rerun for this example.
 
-![V2 and V3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/2a7ab7900d835db05120bb625f5f403a3c3390a5/scene-comparison.jpg)
+![V2 and V3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](assets/scene-comparison.jpg)
 
-V2 and V3 rendered snapshots, about **155 KiB**. Each method uses its own camera;
+V2 and V3 rendered snapshots. Each method uses its own camera;
 the views are not strictly aligned.
 
-![Aggregate results and visual scores for all 15 scenes](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/results.png)
+![Aggregate results and visual scores for all 15 scenes](assets/results.png)
 
-The figure is about **72 KiB**, hosted on Hugging Face. [Per-scene results](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.json)
-and [CSV](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.csv) are available there too.
+[Per-scene results](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.json)
+and [CSV](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.csv).
 
-The 45 reference/Codex/SoL-Pi videos remain in the private
-[Belta/solpi-visual dataset](https://huggingface.co/datasets/Belta/solpi-visual),
-which requires authorized access. Reference clips use the first 30 seconds;
-reconstruction videos are Blender exports from the corresponding experiments.
+[Videos](https://huggingface.co/datasets/Belta/solpi-visual) (access required):
+30-second VSI-Bench reference clips and Blender reconstruction exports from
+Codex and SoL-Pi.
