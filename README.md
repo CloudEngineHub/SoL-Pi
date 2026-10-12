@@ -14,10 +14,8 @@
 
 > [!NOTE]
 > This repository contains the open-source version of SoL-Pi, a standalone extension for [Pi](https://github.com/earendil-works/pi). It is not an official distribution of Pi.
-
-## Notes
-
-SoL-Pi is under active development to support pi-v1 and the latest model checkpoints.
+>
+> SoL-Pi is under active development to support pi-v1 and the latest model checkpoints.
 
 ## 💡 TL;DR
 
