@@ -85,9 +85,4 @@ SoL-Pi Visual uses all three settings above in this comparison.
 
 ![Scene 2 and Scene 3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](assets/scene-comparison.jpg)
 
-Scene 2 and Scene 3.
-
 ![Aggregate results and visual scores for all 15 scenes](assets/results.png)
-
-[Per-scene results](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.json)
-and [CSV](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/full15.csv).
