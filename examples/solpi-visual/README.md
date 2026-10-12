@@ -75,11 +75,11 @@ Model: **GPT-6 Astra**, high reasoning effort. The comparison uses 15 scenes:
 five each from ARKitScenes, ScanNet++ and ScanNet, selected from
 [VSI-Bench](https://huggingface.co/datasets/nyu-visionx/VSI-Bench).
 
+SoL-Pi Visual uses all three settings above in this comparison.
+
 Average model-graded visual scores, recorded fees and call counts across 15 scenes.
 
 ![Average visual scores, recorded fees and call counts](assets/results.png)
-
-SoL-Pi Visual uses all three settings above in this comparison.
 
 Reconstructions of Scene 2 and Scene 3 by Codex, SoL-Pi and SoL-Pi Visual.
 
