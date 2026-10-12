@@ -82,8 +82,15 @@ five each from ARKitScenes, ScanNet++ and ScanNet, selected from
 | SoL-Pi | 75.80 | 9.53 | 100.53 |
 | SoL-Pi Visual | 70.35 | 5.60 | 62.00 |
 
+SoL-Pi Visual uses all three settings above in this comparison.
+
 Selected experiment snapshots, including recovery outputs; scores are model-graded
 and fees are recorded subtotals. These experiments were not rerun for this example.
+
+![V2 and V3 reconstruction results from Codex, SoL-Pi and SoL-Pi Visual](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/2a7ab7900d835db05120bb625f5f403a3c3390a5/scene-comparison.jpg)
+
+V2 and V3 rendered snapshots, about **155 KiB**. Each method uses its own camera;
+the views are not strictly aligned.
 
 ![Aggregate results and visual scores for all 15 scenes](https://huggingface.co/datasets/Belta/solpi-visual-preview/resolve/310acc1042ce4a925053700a7b4b5f76bf9aba14/results.png)
 
