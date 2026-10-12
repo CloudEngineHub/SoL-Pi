@@ -1,0 +1,49 @@
+{
+  "name": "solpi-visual",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Isolated scene reconstruction example from SIGIL's qihang branch",
+  "license": "MIT",
+  "files": [
+    "src/**/*.ts",
+    "src/**/*.py",
+    "results/*.md",
+    "results/*.json",
+    "results/*.csv",
+    "scripts/build-results-preview.py",
+    "README.md",
+    "PROVENANCE.json",
+    "solpi-visual.example.json",
+    "requirements-magnify.txt"
+  ],
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:magnify": "python3 -m unittest discover -s tests/python -v",
+    "check": "npm run typecheck && npm test && npm run test:magnify && npm pack --dry-run",
+    "pi": "pi --extension ./src/index.ts"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "1.0.4",
+    "typebox": "1.3.27"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-agent-core": "1.0.4",
+    "@earendil-works/pi-ai": "1.0.4",
+    "@earendil-works/pi-coding-agent": "1.0.4",
+    "@earendil-works/pi-tui": "1.0.4",
+    "@types/node": "24.12.4",
+    "typebox": "1.3.27",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  }
+}

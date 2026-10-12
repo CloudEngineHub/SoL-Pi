@@ -1,0 +1,59 @@
+{
+  "repository": "https://github.com/Efficient-Large-Model/SIGIL",
+  "branch": "qihang",
+  "source_commit": "4c227debe792ceadbd31a8c0dc8dafb6e47b4c91",
+  "inspected_branch_head": "2fe1aa27d3708f83ed4b9fce316976c6a347c2dd",
+  "pi_checkpoint": {
+    "repository": "https://github.com/Efficient-Large-Model/neural-harness-pi",
+    "commit": "0b4f4123ffe3e0f73b473c6d37e8e7009542875b",
+    "version": "0.81.1"
+  },
+  "historical_scene_extension_test_version": "0.85.1",
+  "files": [
+    {
+      "path": "src/scene/index.ts",
+      "source_path": "agents/sol-pi/src/sol-pi/extensions/scene-reconstruction/index.ts",
+      "source_sha256": "b917b6a48ddb27b214cc4cc8e829e45b83ed98c94677559f327aa5bbba6b8efd",
+      "unchanged": false
+    },
+    {
+      "path": "src/scene/policies.ts",
+      "source_path": "agents/sol-pi/src/sol-pi/extensions/scene-reconstruction/policies.ts",
+      "source_sha256": "67832136c766c0c2107c86cfdc13ce526a3b8bafaf9460956ab91119cf41b853",
+      "unchanged": true
+    },
+    {
+      "path": "src/scene/magnify.py",
+      "source_path": "agents/sol-pi/src/sol-pi/extensions/scene-reconstruction/magnify.py",
+      "source_sha256": "08cde45408659d643cccbf35416ee0e360e494f4359217a0dfd29a7080e79d10",
+      "unchanged": false
+    },
+    {
+      "path": "requirements-magnify.txt",
+      "source_path": "agents/sol-pi/requirements-magnify.txt",
+      "source_sha256": "570c9387510a35edf1e287600993944ebc8ee5af602c809cf00cd57e2b723779",
+      "unchanged": true
+    },
+    {
+      "path": "tests/python/test_magnify.py",
+      "source_path": "agents/sol-pi/tests/python/test_magnify.py",
+      "source_sha256": "b4a10d9fe55140c97a254b6935bf25746df460df50b0c94e9c9ec4a39defeb6e",
+      "unchanged": false
+    }
+  ],
+  "adaptations": [
+    "Separate example-only config and artifact namespace.",
+    "No imports from root SoL-Pi internals; no original four mechanisms copied.",
+    "Scene tool implementation retains the historical five-argument Pi tool execution API.",
+    "Example renamed to solpi-visual with its own configuration file, prompt marker and artifact namespace.",
+    "Pre-release hardening: bounded regular-file PNG/JPEG inputs, 3750000-byte PNG output cap, concurrent cache verification; crop math and prompt policies remain unchanged."
+  ],
+  "validation": "See README.md. Published Pi 1.0.4 is the validated example host, distinct from the historical SIGIL Pi 0.81.1 fork.",
+  "runtime": {
+    "package": "@earendil-works/pi-coding-agent",
+    "version": "1.0.4",
+    "typebox": "1.3.27",
+    "reason": "Replace vulnerable Pi 0.81.1 shrinkwrap using an unmodified upstream release.",
+    "historical_results_rerun": false
+  }
+}

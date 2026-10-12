@@ -1,0 +1,591 @@
+{
+  "study": "20260929_visual_await_full15",
+  "source_utc": "2026-09-30T08:36:01.614354+00:00",
+  "source_sha256": "37703d49ccffa69819a24cb439452827125ef09665957b8b163395c3fb20b522",
+  "scope": "same15 products; contains exact failed snapshots and isolated mechanical recovery; not original end-to-end success",
+  "fee_unit": "provider-reported units; currency unverified",
+  "aggregates": [
+    {
+      "method": "codex",
+      "scene_count": 15,
+      "mean_visual_score": 76.86666666666666,
+      "selected_snapshot_known_cost": 134.28042587299998,
+      "selected_snapshot_calls": 1073,
+      "selected_snapshot_unknown_cost_requests": 8
+    },
+    {
+      "method": "solpi",
+      "scene_count": 15,
+      "mean_visual_score": 75.8,
+      "selected_snapshot_known_cost": 142.89898671199995,
+      "selected_snapshot_calls": 1508,
+      "selected_snapshot_unknown_cost_requests": 5
+    },
+    {
+      "method": "visual",
+      "scene_count": 15,
+      "mean_visual_score": 69.18333333333334,
+      "selected_snapshot_known_cost": 120.04518252999999,
+      "selected_snapshot_calls": 1283,
+      "selected_snapshot_unknown_cost_requests": 27
+    },
+    {
+      "method": "visual_await",
+      "scene_count": 15,
+      "mean_visual_score": 70.35,
+      "selected_snapshot_known_cost": 83.967392862,
+      "selected_snapshot_calls": 930,
+      "selected_snapshot_unknown_cost_requests": 14
+    }
+  ],
+  "rows": [
+    {
+      "scene": "V1",
+      "method": "codex",
+      "visual_score": 72.0,
+      "known_fee": 8.318878181,
+      "calls": 74,
+      "unknown_fee_requests": 2,
+      "selected_version": "V1"
+    },
+    {
+      "scene": "V1",
+      "method": "solpi",
+      "visual_score": 76.5,
+      "known_fee": 19.006210313,
+      "calls": 209,
+      "unknown_fee_requests": 1,
+      "selected_version": "V1"
+    },
+    {
+      "scene": "V1",
+      "method": "visual",
+      "visual_score": 66.25,
+      "known_fee": 8.348070829,
+      "calls": 89,
+      "unknown_fee_requests": 0,
+      "selected_version": "V1"
+    },
+    {
+      "scene": "V1",
+      "method": "visual_await",
+      "visual_score": 75.75,
+      "known_fee": 4.533986996,
+      "calls": 47,
+      "unknown_fee_requests": 0,
+      "selected_version": "V1"
+    },
+    {
+      "scene": "V2",
+      "method": "codex",
+      "visual_score": 74.0,
+      "known_fee": 10.37908663,
+      "calls": 77,
+      "unknown_fee_requests": 1,
+      "selected_version": "V2"
+    },
+    {
+      "scene": "V2",
+      "method": "solpi",
+      "visual_score": 76.25,
+      "known_fee": 9.639632276,
+      "calls": 112,
+      "unknown_fee_requests": 1,
+      "selected_version": "V2"
+    },
+    {
+      "scene": "V2",
+      "method": "visual",
+      "visual_score": 74.5,
+      "known_fee": 9.435674961999998,
+      "calls": 68,
+      "unknown_fee_requests": 2,
+      "selected_version": "V2"
+    },
+    {
+      "scene": "V2",
+      "method": "visual_await",
+      "visual_score": 78.0,
+      "known_fee": 8.230151160000002,
+      "calls": 86,
+      "unknown_fee_requests": 1,
+      "selected_version": "V2"
+    },
+    {
+      "scene": "V3",
+      "method": "codex",
+      "visual_score": 73.0,
+      "known_fee": 12.024102107,
+      "calls": 100,
+      "unknown_fee_requests": 0,
+      "selected_version": "V3"
+    },
+    {
+      "scene": "V3",
+      "method": "solpi",
+      "visual_score": 70.25,
+      "known_fee": 4.533447506,
+      "calls": 51,
+      "unknown_fee_requests": 0,
+      "selected_version": "V3"
+    },
+    {
+      "scene": "V3",
+      "method": "visual",
+      "visual_score": 76.5,
+      "known_fee": 11.397058385000005,
+      "calls": 90,
+      "unknown_fee_requests": 2,
+      "selected_version": "V3"
+    },
+    {
+      "scene": "V3",
+      "method": "visual_await",
+      "visual_score": 73.0,
+      "known_fee": 4.720400242000001,
+      "calls": 51,
+      "unknown_fee_requests": 0,
+      "selected_version": "V3"
+    },
+    {
+      "scene": "V4",
+      "method": "codex",
+      "visual_score": 75.25,
+      "known_fee": 9.406037143,
+      "calls": 68,
+      "unknown_fee_requests": 1,
+      "selected_version": "V4-final-v3"
+    },
+    {
+      "scene": "V4",
+      "method": "solpi",
+      "visual_score": 77.5,
+      "known_fee": 26.255011914,
+      "calls": 242,
+      "unknown_fee_requests": 2,
+      "selected_version": "V4-final-v3"
+    },
+    {
+      "scene": "V4",
+      "method": "visual",
+      "visual_score": 75.25,
+      "known_fee": 10.938621436,
+      "calls": 128,
+      "unknown_fee_requests": 1,
+      "selected_version": "V4-final-v3"
+    },
+    {
+      "scene": "V4",
+      "method": "visual_await",
+      "visual_score": 76.5,
+      "known_fee": 6.872751748,
+      "calls": 79,
+      "unknown_fee_requests": 0,
+      "selected_version": "V4-final-v3"
+    },
+    {
+      "scene": "V5",
+      "method": "codex",
+      "visual_score": 72.75,
+      "known_fee": 7.903452531,
+      "calls": 64,
+      "unknown_fee_requests": 1,
+      "selected_version": "V5"
+    },
+    {
+      "scene": "V5",
+      "method": "solpi",
+      "visual_score": 75.5,
+      "known_fee": 8.202608911,
+      "calls": 77,
+      "unknown_fee_requests": 0,
+      "selected_version": "V5"
+    },
+    {
+      "scene": "V5",
+      "method": "visual",
+      "visual_score": 76.5,
+      "known_fee": 7.747190904,
+      "calls": 98,
+      "unknown_fee_requests": 0,
+      "selected_version": "V5"
+    },
+    {
+      "scene": "V5",
+      "method": "visual_await",
+      "visual_score": 69.5,
+      "known_fee": 6.701222554,
+      "calls": 84,
+      "unknown_fee_requests": 0,
+      "selected_version": "V5"
+    },
+    {
+      "scene": "V6",
+      "method": "codex",
+      "visual_score": 76.5,
+      "known_fee": 9.648801404,
+      "calls": 75,
+      "unknown_fee_requests": 0,
+      "selected_version": "V6-source-correction-v2"
+    },
+    {
+      "scene": "V6",
+      "method": "solpi",
+      "visual_score": 77.5,
+      "known_fee": 8.725906136999999,
+      "calls": 94,
+      "unknown_fee_requests": 1,
+      "selected_version": "V6-source-correction-v2"
+    },
+    {
+      "scene": "V6",
+      "method": "visual",
+      "visual_score": 75.25,
+      "known_fee": 15.491944194,
+      "calls": 168,
+      "unknown_fee_requests": 0,
+      "selected_version": "V6-source-correction-v2"
+    },
+    {
+      "scene": "V6",
+      "method": "visual_await",
+      "visual_score": 70.25,
+      "known_fee": 6.690267971,
+      "calls": 76,
+      "unknown_fee_requests": 0,
+      "selected_version": "V6-source-correction-v2"
+    },
+    {
+      "scene": "V7",
+      "method": "codex",
+      "visual_score": 75.25,
+      "known_fee": 7.285941634,
+      "calls": 58,
+      "unknown_fee_requests": 1,
+      "selected_version": "V7-repair-mechanical-v1"
+    },
+    {
+      "scene": "V7",
+      "method": "solpi",
+      "visual_score": 76.25,
+      "known_fee": 4.909498093,
+      "calls": 58,
+      "unknown_fee_requests": 0,
+      "selected_version": "V7-repair-mechanical-v1"
+    },
+    {
+      "scene": "V7",
+      "method": "visual",
+      "visual_score": 59.5,
+      "known_fee": 5.429745549,
+      "calls": 60,
+      "unknown_fee_requests": 3,
+      "selected_version": "V7-repair-mechanical-v1"
+    },
+    {
+      "scene": "V7",
+      "method": "visual_await",
+      "visual_score": 69.5,
+      "known_fee": 8.760666909000005,
+      "calls": 95,
+      "unknown_fee_requests": 0,
+      "selected_version": "V7-repair-mechanical-v1"
+    },
+    {
+      "scene": "V8",
+      "method": "codex",
+      "visual_score": 77.75,
+      "known_fee": 5.2110854810000005,
+      "calls": 53,
+      "unknown_fee_requests": 1,
+      "selected_version": "V8"
+    },
+    {
+      "scene": "V8",
+      "method": "solpi",
+      "visual_score": 76.5,
+      "known_fee": 9.875395278,
+      "calls": 90,
+      "unknown_fee_requests": 0,
+      "selected_version": "V8"
+    },
+    {
+      "scene": "V8",
+      "method": "visual",
+      "visual_score": 72.0,
+      "known_fee": 7.369229715000002,
+      "calls": 91,
+      "unknown_fee_requests": 0,
+      "selected_version": "V8"
+    },
+    {
+      "scene": "V8",
+      "method": "visual_await",
+      "visual_score": 68.25,
+      "known_fee": 6.8389437079999995,
+      "calls": 64,
+      "unknown_fee_requests": 2,
+      "selected_version": "V8"
+    },
+    {
+      "scene": "V9",
+      "method": "codex",
+      "visual_score": 80.0,
+      "known_fee": 7.570590871,
+      "calls": 57,
+      "unknown_fee_requests": 0,
+      "selected_version": "V9-repair-mechanical-v1"
+    },
+    {
+      "scene": "V9",
+      "method": "solpi",
+      "visual_score": 79.0,
+      "known_fee": 8.41681837,
+      "calls": 98,
+      "unknown_fee_requests": 0,
+      "selected_version": "V9-repair-mechanical-v1"
+    },
+    {
+      "scene": "V9",
+      "method": "visual",
+      "visual_score": 59.25,
+      "known_fee": 2.036504286,
+      "calls": 27,
+      "unknown_fee_requests": 0,
+      "selected_version": "V9-repair-mechanical-v1"
+    },
+    {
+      "scene": "V9",
+      "method": "visual_await",
+      "visual_score": 69.5,
+      "known_fee": 6.4299680829999994,
+      "calls": 63,
+      "unknown_fee_requests": 0,
+      "selected_version": "V9-repair-mechanical-v1"
+    },
+    {
+      "scene": "V10",
+      "method": "codex",
+      "visual_score": 77.5,
+      "known_fee": 12.333924975,
+      "calls": 87,
+      "unknown_fee_requests": 1,
+      "selected_version": "V10"
+    },
+    {
+      "scene": "V10",
+      "method": "solpi",
+      "visual_score": 75.5,
+      "known_fee": 10.500442153,
+      "calls": 115,
+      "unknown_fee_requests": 0,
+      "selected_version": "V10"
+    },
+    {
+      "scene": "V10",
+      "method": "visual",
+      "visual_score": 60.25,
+      "known_fee": 6.585819771000001,
+      "calls": 74,
+      "unknown_fee_requests": 2,
+      "selected_version": "V10"
+    },
+    {
+      "scene": "V10",
+      "method": "visual_await",
+      "visual_score": 72.0,
+      "known_fee": 6.34154714,
+      "calls": 59,
+      "unknown_fee_requests": 0,
+      "selected_version": "V10"
+    },
+    {
+      "scene": "V11",
+      "method": "codex",
+      "visual_score": 80.0,
+      "known_fee": 6.844490546,
+      "calls": 58,
+      "unknown_fee_requests": 0,
+      "selected_version": "V11"
+    },
+    {
+      "scene": "V11",
+      "method": "solpi",
+      "visual_score": 76.25,
+      "known_fee": 9.025755413,
+      "calls": 102,
+      "unknown_fee_requests": 0,
+      "selected_version": "V11"
+    },
+    {
+      "scene": "V11",
+      "method": "visual",
+      "visual_score": 71.5,
+      "known_fee": 9.505047136999996,
+      "calls": 106,
+      "unknown_fee_requests": 0,
+      "selected_version": "V11"
+    },
+    {
+      "scene": "V11",
+      "method": "visual_await",
+      "visual_score": 73.75,
+      "known_fee": 6.639793727000001,
+      "calls": 71,
+      "unknown_fee_requests": 1,
+      "selected_version": "V11"
+    },
+    {
+      "scene": "V12",
+      "method": "codex",
+      "visual_score": 86.25,
+      "known_fee": 7.902661646,
+      "calls": 68,
+      "unknown_fee_requests": 0,
+      "selected_version": "V12-repair-failed-snapshot-v1"
+    },
+    {
+      "scene": "V12",
+      "method": "solpi",
+      "visual_score": 80.75,
+      "known_fee": 6.853755094,
+      "calls": 81,
+      "unknown_fee_requests": 0,
+      "selected_version": "V12-repair-failed-snapshot-v1"
+    },
+    {
+      "scene": "V12",
+      "method": "visual",
+      "visual_score": 83.25,
+      "known_fee": 10.925149600000001,
+      "calls": 125,
+      "unknown_fee_requests": 9,
+      "selected_version": "V12-repair-failed-snapshot-v1"
+    },
+    {
+      "scene": "V12",
+      "method": "visual_await",
+      "visual_score": 76.25,
+      "known_fee": 2.90233876,
+      "calls": 48,
+      "unknown_fee_requests": 7,
+      "selected_version": "V12-repair-failed-snapshot-v1"
+    },
+    {
+      "scene": "V13",
+      "method": "codex",
+      "visual_score": 76.5,
+      "known_fee": 9.494612226,
+      "calls": 76,
+      "unknown_fee_requests": 0,
+      "selected_version": "V13-repair-failed-mechanical-v1"
+    },
+    {
+      "scene": "V13",
+      "method": "solpi",
+      "visual_score": 80.0,
+      "known_fee": 4.354275904,
+      "calls": 50,
+      "unknown_fee_requests": 0,
+      "selected_version": "V13-repair-failed-mechanical-v1"
+    },
+    {
+      "scene": "V13",
+      "method": "visual",
+      "visual_score": 75.75,
+      "known_fee": 9.557523733,
+      "calls": 84,
+      "unknown_fee_requests": 6,
+      "selected_version": "V13-repair-failed-mechanical-v1"
+    },
+    {
+      "scene": "V13",
+      "method": "visual_await",
+      "visual_score": 68.75,
+      "known_fee": 2.978640629,
+      "calls": 36,
+      "unknown_fee_requests": 1,
+      "selected_version": "V13-repair-failed-mechanical-v1"
+    },
+    {
+      "scene": "V14",
+      "method": "codex",
+      "visual_score": 76.25,
+      "known_fee": 11.092849883,
+      "calls": 91,
+      "unknown_fee_requests": 0,
+      "selected_version": "V14-repair-mechanical-v1"
+    },
+    {
+      "scene": "V14",
+      "method": "solpi",
+      "visual_score": 61.75,
+      "known_fee": 7.095432301,
+      "calls": 68,
+      "unknown_fee_requests": 0,
+      "selected_version": "V14-repair-mechanical-v1"
+    },
+    {
+      "scene": "V14",
+      "method": "visual",
+      "visual_score": 50.0,
+      "known_fee": 2.9775366930000002,
+      "calls": 42,
+      "unknown_fee_requests": 2,
+      "selected_version": "V14-repair-mechanical-v1"
+    },
+    {
+      "scene": "V14",
+      "method": "visual_await",
+      "visual_score": 54.0,
+      "known_fee": 2.334162572,
+      "calls": 36,
+      "unknown_fee_requests": 0,
+      "selected_version": "V14-repair-mechanical-v1"
+    },
+    {
+      "scene": "V15",
+      "method": "codex",
+      "visual_score": 80.0,
+      "known_fee": 8.863910615,
+      "calls": 67,
+      "unknown_fee_requests": 0,
+      "selected_version": "V15-repair-mechanical-v1"
+    },
+    {
+      "scene": "V15",
+      "method": "solpi",
+      "visual_score": 77.5,
+      "known_fee": 5.504797049,
+      "calls": 61,
+      "unknown_fee_requests": 0,
+      "selected_version": "V15-repair-mechanical-v1"
+    },
+    {
+      "scene": "V15",
+      "method": "visual",
+      "visual_score": 62.0,
+      "known_fee": 2.300065336,
+      "calls": 33,
+      "unknown_fee_requests": 0,
+      "selected_version": "V15-repair-mechanical-v1"
+    },
+    {
+      "scene": "V15",
+      "method": "visual_await",
+      "visual_score": 60.25,
+      "known_fee": 2.9925506630000003,
+      "calls": 35,
+      "unknown_fee_requests": 2,
+      "selected_version": "V15-repair-mechanical-v1"
+    }
+  ],
+  "limits": [
+    "Historical selected-snapshot comparison, not a benchmark of the current isolated example.",
+    "Includes preserved failed snapshots and isolated mechanical recovery.",
+    "Fees stop at the selected snapshot; later attempts, grading and infrastructure are excluded.",
+    "Some request fees are missing. Unknown fees are not zero.",
+    "Scores are model rubric judgments of reconstruction and native camera jointly; not official metrics or independently verified end-to-end success.",
+    "Single runs without uncertainty estimates or causal isolation."
+  ]
+}

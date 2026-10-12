@@ -1,0 +1,160 @@
+{
+  "source_selection": "frozen 2026-09-23 before additional scene outputs",
+  "reference_distribution": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench",
+  "scope": "15 selected scenes, five each from ARKitScenes, ScanNet++ and ScanNet. This is a scene reconstruction study, not an official VSI-Bench evaluation.",
+  "reconstruction_source": "Historical BVB reconstruction experiment exports: Codex/native and original SoL-Pi, 30 continuous Blender render films, delivery verified 2026-09-27. Existing videos, no model rerun or new scene rendering in this packaging task.",
+  "scenes": [
+    {
+      "scene": "V1",
+      "dataset": "ARKitScenes",
+      "source_id": "42446049",
+      "upstream_archive": null,
+      "archive_member": null,
+      "archive_sha256": null,
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": true
+    },
+    {
+      "scene": "V2",
+      "dataset": "ScanNet++",
+      "source_id": "7831862f02",
+      "upstream_archive": null,
+      "archive_member": null,
+      "archive_sha256": null,
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": true
+    },
+    {
+      "scene": "V3",
+      "dataset": "ScanNet",
+      "source_id": "scene0500_00",
+      "upstream_archive": null,
+      "archive_member": null,
+      "archive_sha256": null,
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": true
+    },
+    {
+      "scene": "V4",
+      "dataset": "ARKitScenes",
+      "source_id": "42899612",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/arkitscenes.zip",
+      "archive_member": "arkitscenes/42899612.mp4",
+      "archive_sha256": "005232fa20ccfa287255ca96c4d0c0c0863c24bdc1a40a89165b75f509bf4907",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V5",
+      "dataset": "ScanNet++",
+      "source_id": "d755b3d9d8",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannetpp.zip",
+      "archive_member": "scannetpp/d755b3d9d8.mp4",
+      "archive_sha256": "164b2314107e070c7d8a652897404904adf36a8868c2293be04382727d9a19be",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V6",
+      "dataset": "ScanNet",
+      "source_id": "scene0207_02",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannet.zip",
+      "archive_member": "scannet/scene0207_02.mp4",
+      "archive_sha256": "787b0c061bde5c1f5e076012c1239340fdb1330787c644977c7cad5cdbe1d548",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V7",
+      "dataset": "ARKitScenes",
+      "source_id": "45663164",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/arkitscenes.zip",
+      "archive_member": "arkitscenes/45663164.mp4",
+      "archive_sha256": "005232fa20ccfa287255ca96c4d0c0c0863c24bdc1a40a89165b75f509bf4907",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V8",
+      "dataset": "ScanNet++",
+      "source_id": "27dd4da69e",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannetpp.zip",
+      "archive_member": "scannetpp/27dd4da69e.mp4",
+      "archive_sha256": "164b2314107e070c7d8a652897404904adf36a8868c2293be04382727d9a19be",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V9",
+      "dataset": "ScanNet",
+      "source_id": "scene0426_00",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannet.zip",
+      "archive_member": "scannet/scene0426_00.mp4",
+      "archive_sha256": "787b0c061bde5c1f5e076012c1239340fdb1330787c644977c7cad5cdbe1d548",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V10",
+      "dataset": "ARKitScenes",
+      "source_id": "47331319",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/arkitscenes.zip",
+      "archive_member": "arkitscenes/47331319.mp4",
+      "archive_sha256": "005232fa20ccfa287255ca96c4d0c0c0863c24bdc1a40a89165b75f509bf4907",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V11",
+      "dataset": "ScanNet++",
+      "source_id": "13c3e046d7",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannetpp.zip",
+      "archive_member": "scannetpp/13c3e046d7.mp4",
+      "archive_sha256": "164b2314107e070c7d8a652897404904adf36a8868c2293be04382727d9a19be",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V12",
+      "dataset": "ScanNet",
+      "source_id": "scene0553_00",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannet.zip",
+      "archive_member": "scannet/scene0553_00.mp4",
+      "archive_sha256": "787b0c061bde5c1f5e076012c1239340fdb1330787c644977c7cad5cdbe1d548",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V13",
+      "dataset": "ARKitScenes",
+      "source_id": "45662970",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/arkitscenes.zip",
+      "archive_member": "arkitscenes/45662970.mp4",
+      "archive_sha256": "005232fa20ccfa287255ca96c4d0c0c0863c24bdc1a40a89165b75f509bf4907",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V14",
+      "dataset": "ScanNet++",
+      "source_id": "e398684d27",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannetpp.zip",
+      "archive_member": "scannetpp/e398684d27.mp4",
+      "archive_sha256": "164b2314107e070c7d8a652897404904adf36a8868c2293be04382727d9a19be",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    },
+    {
+      "scene": "V15",
+      "dataset": "ScanNet",
+      "source_id": "scene0246_00",
+      "upstream_archive": "https://huggingface.co/datasets/nyu-visionx/VSI-Bench/resolve/main/scannet.zip",
+      "archive_member": "scannet/scene0246_00.mp4",
+      "archive_sha256": "787b0c061bde5c1f5e076012c1239340fdb1330787c644977c7cad5cdbe1d548",
+      "clip": "first 30 seconds",
+      "existing_original_unchanged": false
+    }
+  ],
+  "source_selection_content_sha256": "7c4b2b86445b232d3de2caf018fa94623007963426c5f3c4b89f2968793ba26c",
+  "source_selection_hash_encoding": "JSON with sorted keys and compact separators, UTF-8"
+}
