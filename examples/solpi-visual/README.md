@@ -1,7 +1,8 @@
 # SoL-Pi Visual
 
-A visual scene reconstruction example for SoL-Pi. It adds image-region inspection,
-focused edits and guidance to wait for renders when there is no other work to do.
+This example extends SoL-Pi for visual scene reconstruction. It helps the agent
+inspect image details, refine specific parts of a scene, and wait for renders
+to finish.
 
 ## Usage
 
