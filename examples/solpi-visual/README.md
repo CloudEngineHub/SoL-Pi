@@ -1,7 +1,7 @@
 # SoL-Pi Visual
 
-This example extends SoL-Pi for visual scene reconstruction. It helps the agent
-inspect image details, refine specific parts of a scene, and work more efficiently.
+This example extends SoL-Pi for visual scene reconstruction. It supports
+image-detail inspection, targeted scene refinement, and more efficient workflows.
 
 ## Usage
 
@@ -71,11 +71,10 @@ the default output edge limit is 1024 pixels.
 
 ## 15-scene results
 
-Model: **GPT-6 Astra**, high reasoning effort. The comparison uses 15 scenes:
-five each from ARKitScenes, ScanNet++ and ScanNet, selected from
-[VSI-Bench](https://huggingface.co/datasets/nyu-visionx/VSI-Bench).
-
-SoL-Pi Visual uses all three settings above in this comparison.
+We compare Codex, SoL-Pi, and SoL-Pi Visual (three settings above enabled)
+using **GPT-6 Astra** with high reasoning effort on 15 scenes from
+[VSI-Bench](https://huggingface.co/datasets/nyu-visionx/VSI-Bench):
+five each from ARKitScenes, ScanNet++ and ScanNet.
 
 Average model-graded visual scores, recorded fees and call counts across 15 scenes.
 
