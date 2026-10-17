@@ -4,8 +4,11 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
-import { beforeAll, describe, expect, it } from "vitest";
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { pathToFileURL } from "node:url";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 interface PackReport {
 	files: Array<{ path: string }>;
@@ -48,5 +51,177 @@ describe("published package", () => {
 		expect(files).toContain("agents-install.md");
 		expect(files).not.toContain("AGENTS.md");
 		expect(files).not.toContain("CLAUDE.md");
+	});
+});
+
+function runScript(script: string, args: string[]): { status: number | null; output: string } {
+	const result = spawnSync(process.execPath, [script, ...args], { cwd: process.cwd(), encoding: "utf8" });
+	return { status: result.status, output: `${result.stdout}${result.stderr}` };
+}
+
+function checkPiCompat(...args: string[]): { status: number | null; output: string } {
+	return runScript("scripts/check-pi-compat.mjs", args);
+}
+
+describe("Pi compatibility check", () => {
+	const baseline = checkPiCompat();
+	const detected = /^Pi: @earendil-works\/pi-coding-agent@(\S+) \((.+)\)$/m.exec(baseline.output);
+	const roots: string[] = [];
+
+	afterAll(() => {
+		for (const root of roots) rmSync(root, { recursive: true, force: true });
+	});
+
+	function realPiDir(): string {
+		const [, , realDir] = detected ?? [];
+		if (!realDir) throw new Error(baseline.output);
+		return realDir;
+	}
+
+	/** The installed Pi version, so a fake Pi with the real exports passes the VERSION check. */
+	function realVersion(): string {
+		const [, version] = detected ?? [];
+		if (!version) throw new Error(baseline.output);
+		return version;
+	}
+
+	function tempRoot(): string {
+		const root = mkdtempSync(join(tmpdir(), "sol-pi-compat-"));
+		roots.push(root);
+		return root;
+	}
+
+	/**
+	 * A Pi install whose pi-coding-agent claims `version` and re-exports `exports` from the real one.
+	 * `body` is appended to its entry module; set `exports` to "" to replace the module entirely.
+	 */
+	function fakePi(version: string, exports: string, body = ""): string {
+		const realDir = realPiDir();
+		const root = tempRoot();
+		const scope = join(root, "node_modules", "@earendil-works");
+		const piDir = join(scope, "pi-coding-agent");
+		mkdirSync(join(piDir, "dist"), { recursive: true });
+		for (const sibling of ["pi-ai", "pi-tui"]) {
+			symlinkSync(join(dirname(realDir), sibling), join(scope, sibling), "dir");
+		}
+		const realIndex = pathToFileURL(join(realDir, "dist", "index.js")).href;
+		const manifest = {
+			name: "@earendil-works/pi-coding-agent",
+			version,
+			type: "module",
+			exports: { ".": { import: "./dist/index.js" } },
+		};
+		writeFileSync(join(piDir, "package.json"), JSON.stringify(manifest));
+		const reexport = exports ? `export ${exports} from ${JSON.stringify(realIndex)};\n` : "";
+		writeFileSync(join(piDir, "dist", "index.js"), `${reexport}${body}\n`);
+		return root;
+	}
+
+	/** A SoL-Pi checkout with only the compat script, the given src/ files, and the real node_modules. */
+	function fakeCheckout(sources: Record<string, string>): string {
+		const root = tempRoot();
+		mkdirSync(join(root, "scripts"));
+		mkdirSync(join(root, "src"));
+		copyFileSync("scripts/check-pi-compat.mjs", join(root, "scripts", "check-pi-compat.mjs"));
+		for (const [name, source] of Object.entries(sources)) writeFileSync(join(root, "src", name), source);
+		symlinkSync(dirname(dirname(realPiDir())), join(root, "node_modules"), "dir");
+		return join(root, "scripts", "check-pi-compat.mjs");
+	}
+
+	it("passes on the installed Pi and reports its version, bash exit mode, and codemode availability", async () => {
+		expect(baseline.status, baseline.output).toBe(0);
+		const [, version, realDir] = detected ?? [];
+		expect(version).toBeDefined();
+		const pi = (await import("@earendil-works/pi-coding-agent")) as Record<string, unknown>;
+		expect(pi.VERSION).toBe(version);
+		expect(baseline.output).toContain("Pi compatibility: OK");
+		expect(baseline.output).not.toContain("WARN:");
+		const bash = (pi.createBashToolDefinition as (cwd: string) => { outputSchema?: unknown })(process.cwd());
+		// Pi >= 0.99 returns isError with structuredContent for non-zero exits; older Pi throws.
+		expect(baseline.output).toMatch(
+			bash.outputSchema === undefined
+				? /^bash non-zero exit: throws \(Pi <= 0\.98 behaviour\): Command exited with code 3$/m
+				: /^bash non-zero exit: returns isError result/m,
+		);
+		expect(baseline.output).toContain(
+			typeof pi.createCodemodeExtension === "function" ? "codemode: available" : "codemode: not available",
+		);
+		const explicit = checkPiCompat("--pi-root", realDir ?? "", "--strict");
+		expect(explicit.status, explicit.output).toBe(0);
+	});
+
+	it("fails below the supported Pi floor", () => {
+		const result = checkPiCompat("--pi-root", fakePi("0.80.0", "*"));
+		expect(result.status, result.output).toBe(1);
+		expect(result.output).toContain("Pi 0.80.0 is below the supported floor 0.84.2");
+	});
+
+	it("warns on untested Pi versions and fails them only under --strict", () => {
+		const root = fakePi("9.0.0", "*");
+		const relaxed = checkPiCompat("--pi-root", root);
+		expect(relaxed.status, relaxed.output).toBe(0);
+		expect(relaxed.output).toContain("WARN: Pi 9.0.0 is not in the tested set");
+		const strict = checkPiCompat(`--pi-root=${root}`, "--strict");
+		expect(strict.status, strict.output).toBe(1);
+	});
+
+	it("fails when a Pi export SoL-Pi imports is missing", () => {
+		const result = checkPiCompat("--pi-root", fakePi("1.0.4", "{ VERSION, CONFIG_DIR_NAME }"));
+		expect(result.status, result.output).toBe(1);
+		expect(result.output).toContain("Missing public Pi API: @earendil-works/pi-coding-agent getAgentDir");
+		expect(result.output).toContain("Missing public Pi API: createBashToolDefinition");
+	});
+
+	it("checks only the Pi imports that survive TypeScript import elision", () => {
+		const typeOnly = [
+			'import { ExtensionAPI, getAgentDir, NotAPiType } from "@earendil-works/pi-coding-agent";',
+			"export type Missing = NotAPiType;",
+			"export const dir = (_pi: ExtensionAPI): string => getAgentDir();",
+		].join("\n");
+		const passing = runScript(fakeCheckout({ "type-only.ts": typeOnly }), ["--strict"]);
+		expect(passing.status, passing.output).toBe(0);
+		expect(passing.output).not.toContain("ExtensionAPI");
+		expect(passing.output).not.toContain("NotAPiType");
+
+		const valueUse = 'import { notAPiExport } from "@earendil-works/pi-coding-agent";\nexport const value = notAPiExport;';
+		const failing = runScript(fakeCheckout({ "type-only.ts": typeOnly, "value.ts": valueUse }), []);
+		expect(failing.status, failing.output).toBe(1);
+		expect(failing.output).toContain("Missing public Pi API: @earendil-works/pi-coding-agent notAPiExport");
+		expect(failing.output).not.toContain("ExtensionAPI");
+	});
+
+	it("reports the bash exit status line when bash throws on a non-zero exit", () => {
+		const legacyBash = [
+			"export function createBashToolDefinition() {",
+			'\treturn { execute: async () => { throw new Error("out\\n\\nCommand exited with code 3"); } };',
+			"}",
+		].join("\n");
+		const result = checkPiCompat("--pi-root", fakePi(realVersion(), "*", legacyBash), "--strict");
+		expect(result.status, result.output).toBe(0);
+		expect(result.output).toContain("bash non-zero exit: throws (Pi <= 0.98 behaviour): Command exited with code 3");
+	});
+
+	it("warns when the bash probe throws for a reason other than a non-zero exit", () => {
+		const brokenBash = [
+			"export function createBashToolDefinition() {",
+			'\treturn { execute: async () => { throw new Error("spawn /bin/bash ENOENT"); } };',
+			"}",
+		].join("\n");
+		const root = fakePi(realVersion(), "*", brokenBash);
+		const relaxed = checkPiCompat("--pi-root", root);
+		expect(relaxed.status, relaxed.output).toBe(0);
+		expect(relaxed.output).toContain("bash non-zero exit: throws an unexpected error: spawn /bin/bash ENOENT");
+		expect(relaxed.output).not.toContain("Pi <= 0.98 behaviour");
+		expect(relaxed.output).toContain("WARN: bash probe threw for a reason other than a non-zero exit");
+		const strict = checkPiCompat("--pi-root", root, "--strict");
+		expect(strict.status, strict.output).toBe(1);
+	});
+
+	it("reports a Pi install that cannot be imported as a structured failure", () => {
+		const result = checkPiCompat("--pi-root", fakePi(realVersion(), "", 'throw new Error("broken install");'));
+		expect(result.status, result.output).toBe(1);
+		expect(result.output).toContain("ERROR: Cannot load @earendil-works/pi-coding-agent: broken install");
+		expect(result.output).toContain("Pi compatibility: FAIL");
+		expect(result.output).not.toMatch(/^\s+at /m);
 	});
 });
