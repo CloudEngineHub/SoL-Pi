@@ -29,7 +29,7 @@
  *     it is by Pi's extension loader. Without typescript installed every imported name is checked,
  *     with a warning. (`@earendil-works/pi-ai` is checked against its compat entrypoint, as Pi's
  *     loader aliases it.)
- *   - Methods SoL-Pi calls on Pi objects (ModelRegistry, SessionManager).
+ *   - Methods SoL-Pi calls on Pi objects (ModelRegistry, SessionManager, SettingsManager).
  *   - Reports how bash reports a non-zero exit (throws "Command exited with code N" on Pi <= 0.98,
  *     returns an isError result on Pi >= 0.99; SoL-Pi handles both) and whether the built-in
  *     codemode extension is available. Any other bash behaviour (for example a spawn failure) is a
@@ -261,6 +261,10 @@ async function checkPi() {
 		sessionManagerGetLeafId: pi.SessionManager?.prototype.getLeafId,
 		sessionManagerGetSessionDir: pi.SessionManager?.prototype.getSessionDir,
 		sessionManagerGetSessionId: pi.SessionManager?.prototype.getSessionId,
+		settingsManagerCreate: pi.SettingsManager?.create,
+		settingsManagerDrainErrors: pi.SettingsManager?.prototype.drainErrors,
+		settingsManagerGetShellCommandPrefix: pi.SettingsManager?.prototype.getShellCommandPrefix,
+		settingsManagerGetShellPath: pi.SettingsManager?.prototype.getShellPath,
 	})) {
 		if (typeof value !== "function") errors.push(`Missing public Pi API: ${name}`);
 	}

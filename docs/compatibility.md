@@ -22,6 +22,7 @@ SoL-Pi imports only public package exports:
 - `createEditToolDefinition`
 - `createWriteToolDefinition`
 - `createBashToolDefinition`
+- `SettingsManager.create()`, `getShellPath()`, `getShellCommandPrefix()`, and `drainErrors()`
 - extension types and `ExtensionAPI.registerTool`
 - `session_start`, `session_shutdown`, `input`, `context`, `before_provider_request`, `message_end`, `tool_result`, `turn_end`, `agent_settled`, `session_before_compact`, `session_compact`, `session_before_tree`, and `session_tree` extension events
 - `ExtensionContext.getContextUsage()` and `ExtensionContext.compact()`
@@ -46,7 +47,7 @@ On Windows it applies the same drive-path conversion Pi's own resolver applies, 
 
 The queue covers only fused operations registered by this SoL-Pi instance. External processes, direct built-in-tool calls outside the replacement, and unrelated extensions are not globally locked. SoL-Pi hashes the target immediately before launching `then_run` and skips the command if it observes an intervening content change.
 
-`then_run` runs through Pi's public `createBashToolDefinition(ctx.cwd)` with default options. Pi's `shellPath` and `shellCommandPrefix` settings and any bash override registered by another extension do not apply to it.
+`then_run` runs through Pi's public `createBashToolDefinition(ctx.cwd, options)`. At extension startup, Action Fusion reads Pi's file-backed `shellPath` and `shellCommandPrefix` through the public `SettingsManager`, respecting project trust, and passes them to that Bash tool; malformed settings stop initialization rather than silently selecting another shell. On native Windows this selects a custom Git Bash installation instead of a legacy WSL `bash.exe`. SDK/CLI in-memory shell overrides are not visible through this file-backed bridge; embedded callers can pass explicit `bashOptions`. A bash override registered by another extension does not apply to `then_run`.
 
 A non-zero `then_run` exit is a tool failure on every supported Pi version. The file mutation is never rolled back.
 
