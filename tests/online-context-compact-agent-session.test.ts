@@ -433,6 +433,58 @@ describe("Online Context Compact with a real AgentSession", () => {
 			},
 		);
 	}, 10_000);
+
+	it("resumes after a failed boundary compaction when Pi's threshold compaction is enabled", async () => {
+		const done = fauxToolCall("update_plan", { steps: DONE, progress: PROGRESS }, { id: "plan-done" });
+		let resumeRequests = 0;
+		// Pi 1.2+ checks its threshold before the resumed run's first request, so its own compaction runs
+		// before the continuation; Pi 1.0.4 runs it after the continuation. Answer summaries and the
+		// continuation by content so both orders are covered.
+		const answer: FauxResponseStep = async (context) => {
+			const last = context.messages.at(-1);
+			const text = last?.role === "user" && Array.isArray(last.content)
+				? last.content.map((part) => (part.type === "text" ? part.text : "")).join("")
+				: "";
+			if (text === COMPACTION_FAILED_RESUME_REMINDER) {
+				resumeRequests++;
+				return fauxAssistantMessage("final after failed compaction under threshold");
+			}
+			return fauxAssistantMessage(`threshold summary ${"t".repeat(200)}`);
+		};
+		await withScenario(
+			{
+				name: "failed-threshold",
+				providerSummary: true,
+				contextWindow: 10_000,
+				compaction: { enabled: true, keepRecentTokens: 150, reserveTokens: 2_000 },
+				responses: [
+					fauxAssistantMessage(fauxToolCall("update_plan", { steps: OPEN }, { id: "plan-open" }), {
+						stopReason: "toolUse",
+					}),
+					fauxAssistantMessage([fauxText("w".repeat(22_000)), done], { stopReason: "toolUse" }),
+					fauxAssistantMessage("", { stopReason: "error", errorMessage: "summary provider unavailable" }),
+					answer,
+					answer,
+					answer,
+					fauxAssistantMessage("unexpected extra request"),
+				],
+			},
+			async (run) => {
+				// The boundary compaction fails; Pi's own threshold compaction then succeeds.
+				expect(run.compactionEnds).toEqual(["threshold:aborted", "manual", "threshold"]);
+				expect(compactions(run.sessionManager)).toBe(1);
+				expect(reminders(run.sessionManager, POST_COMPACTION_PLAN_REMINDER)).toBe(0);
+				expect(reminders(run.sessionManager, COMPACTION_FAILED_RESUME_REMINDER)).toBe(1);
+				// Pi's compaction keeps the resume reminder, so the model still sees it and continues once.
+				expect(resumeRequests).toBe(1);
+				expect(run.session.getLastAssistantText()).toBe("final after failed compaction under threshold");
+				expect(run.faux.state.callCount).toBe(6);
+				expect(run.settledCount()).toBe(2);
+				expect(run.extensionErrors).toHaveLength(1);
+				expect(run.extensionErrors[0]).toMatch(/^agent_settled: .*summary provider unavailable/u);
+			},
+		);
+	}, 10_000);
 });
 
 describe.skipIf(createCodemodeExtension === undefined)("Online Context Compact with Pi codemode", () => {
