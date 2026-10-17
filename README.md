@@ -68,14 +68,14 @@ Read our paper: [SoL-Pi: Recursively Scaling Auto-Research Loops for Efficient A
 
 - Node.js 22.19 or newer
 - npm
-- `@earendil-works/pi-coding-agent` 0.84.2 or newer; tested with 0.84.2 and 1.0.4. Other versions are untested: `scripts/check-pi-compat.mjs` warns on them, and `--strict` fails.
+- `@earendil-works/pi-coding-agent` 0.84.2 or newer; tested with 0.84.2, 1.0.4, and 1.3.0. Other versions are untested: `scripts/check-pi-compat.mjs` warns on them, and `--strict` fails.
 
 ### Install
 
 Install the latest tested Pi release:
 
 ```bash
-npm install --global @earendil-works/pi-coding-agent@1.0.4
+npm install --global @earendil-works/pi-coding-agent@1.3.0
 ```
 
 Pi 0.84.2 remains supported and tested; install `@earendil-works/pi-coding-agent@0.84.2` instead to stay on it.
@@ -118,9 +118,9 @@ Enable additional mechanisms only after reviewing their configuration and securi
 
 For the complete schema, see [Configuration](docs/configuration.md). Coding agents and automated environments should follow the canonical [agent installation and configuration protocol](agents-install.md), which describes an all-enabled configuration checked with `scripts/check-sol-pi-config.mjs --require-all-enabled`.
 
-### Pi 1.0 and codemode
+### Pi 1.x and codemode
 
-SoL-Pi is tested with Pi 0.84.2 and 1.0.4. All four mechanisms work with Pi codemode in both `codemode.mode: "on"` and `"only"`. In `"only"` mode, the model reaches bash, edit, and write through codemode scripts, and Evidence-Preserving Reducer skips script calls, so it has no effect there. See [Codemode](docs/compatibility.md#codemode) for per-mechanism behavior.
+SoL-Pi is tested with Pi 0.84.2, 1.0.4, and 1.3.0. All four mechanisms work with Pi codemode in both `codemode.mode: "on"` and `"only"`. In `"only"` mode, the model reaches bash, edit, and write through codemode scripts, and Evidence-Preserving Reducer skips script calls, so it has no effect there. See [Codemode](docs/compatibility.md#codemode) for per-mechanism behavior.
 
 To check the Pi that will load SoL-Pi, install the checkout's dependencies, then run the check from the checkout; `--strict` also fails on an untested Pi version. Without `npm ci`, the check cannot load TypeScript, prints a warning, and fails under `--strict` even on a tested Pi:
 
@@ -167,7 +167,7 @@ npm audit --audit-level=high
 npm run check:pi
 ```
 
-`npm run check` covers TypeScript, the complete test suite, and package inspection. `npm run check:pi` runs `scripts/check-pi-compat.mjs` against the development dependency; pass `-- --strict` to fail on warnings, or `-- --pi-root <dir>` to check another Pi installation. The development dependency set is pinned to Pi 1.0.4. To check another tested Pi version, install its four Pi packages over the development dependency and rerun the checks; runtime Pi packages remain peer dependencies so Pi owns their installation and upgrades.
+`npm run check` covers TypeScript, the complete test suite, and package inspection. `npm run check:pi` runs `scripts/check-pi-compat.mjs` against the development dependency; pass `-- --strict` to fail on warnings, or `-- --pi-root <dir>` to check another Pi installation. The development dependency set is pinned to Pi 1.3.0. To check another tested Pi version, install its four Pi packages over the development dependency and rerun the checks; runtime Pi packages remain peer dependencies so Pi owns their installation and upgrades.
 
 ## Project Status
 

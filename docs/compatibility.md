@@ -1,8 +1,8 @@
 # Pi Compatibility
 
-SoL-Pi requires `@earendil-works/pi-coding-agent` 0.84.2 or newer. It is tested against Pi 0.84.2, the supported floor, and Pi 1.0.4, the development dependency. Other versions are untested; Pi changed behavior SoL-Pi depends on in 0.87 and 0.99. `scripts/check-pi-compat.mjs` warns on an untested version and fails on it under `--strict`. Each tested version is checked by installing its four Pi packages over the development dependency and running type checking, the complete test suite, and `scripts/check-pi-compat.mjs --strict`. The four Pi packages `@earendil-works/pi-agent-core`, `pi-ai`, `pi-coding-agent`, and `pi-tui` must have the same version. The runtime range is deliberately expressed as an open-ended peer dependency because Pi owns installation and upgrade of its packages; the declared floor is 0.84.2.
+SoL-Pi requires `@earendil-works/pi-coding-agent` 0.84.2 or newer. It is tested against Pi 0.84.2, the supported floor, Pi 1.0.4, and Pi 1.3.0, the development dependency. Other versions are untested; Pi changed behavior SoL-Pi depends on in 0.87 and 0.99. `scripts/check-pi-compat.mjs` warns on an untested version and fails on it under `--strict`. Each tested version is checked by installing its four Pi packages over the development dependency and running type checking, the complete test suite, and `scripts/check-pi-compat.mjs --strict`. The four Pi packages `@earendil-works/pi-agent-core`, `pi-ai`, `pi-coding-agent`, and `pi-tui` must have the same version. The runtime range is deliberately expressed as an open-ended peer dependency because Pi owns installation and upgrade of its packages; the declared floor is 0.84.2.
 
-SoL-Pi works with Pi codemode in both `codemode.mode: "on"` and `"only"` on Pi 1.0.x; see [Codemode](#codemode). Pi 0.84.2 has no codemode.
+SoL-Pi works with Pi codemode in both `codemode.mode: "on"` and `"only"` on Pi 1.x; see [Codemode](#codemode). Pi 0.84.2 has no codemode.
 
 ## Checking an installed Pi
 
@@ -29,7 +29,7 @@ SoL-Pi imports only public package exports:
 - `ExtensionContext.model` and `ExtensionContext.modelRegistry`
 - the public session-manager methods exposed through `ExtensionContext`
 
-Three Pi 1.0 additions are used only when present:
+Three Pi 1.x additions are used only when present:
 
 - `ExtensionAPI.getSettings()`, which Online Context Compact feature-detects to read Pi's effective compaction settings;
 - the public `buildSessionProjection()` helper, which Online Context Compact uses to account for context edits before estimating Pi's cut point;
@@ -39,7 +39,7 @@ Only Online Context Compact handles `before_provider_request`, to count requests
 
 ## Action Fusion
 
-SoL-Pi caches one built-in edit/write definition per `ctx.cwd`. Pi 0.84.2's definitions resolve paths against the directory they were created with; Pi 1.0.x resolves them against `ctx.cwd` at execution, so both agree. Its own per-file queue surrounds the built-in mutation and follow-up command. It does not nest Pi's built-in mutation queue.
+SoL-Pi caches one built-in edit/write definition per `ctx.cwd`. Pi 0.84.2's definitions resolve paths against the directory they were created with; Pi 1.x resolves them against `ctx.cwd` at execution, so both agree. Its own per-file queue surrounds the built-in mutation and follow-up command. It does not nest Pi's built-in mutation queue.
 
 Action Fusion decodes `file://` targets with Node's `fileURLToPath()` before resolving the queue and hash-check path. This keeps file URLs, including percent-encoded filenames and Pi's optional `@` prefix, aligned with the file handled by the built-in mutation tool.
 
@@ -52,15 +52,15 @@ The queue covers only fused operations registered by this SoL-Pi instance. Exter
 A non-zero `then_run` exit is a tool failure on every supported Pi version. The file mutation is never rolled back.
 
 - **Pi 0.84.2** — bash throws on a non-zero exit, so the fused call fails with an error containing the mutation output, `[then_run:failed]`, the command output, and `Command exited with code N`.
-- **Pi 1.0.x** — bash returns a non-zero exit as an error result, so the fused call returns an error result (`isError: true`). It keeps the mutation's text and details, including the edit diff, and adds a `[then_run:failed]` block followed by the command output.
+- **Pi 1.x** — bash returns a non-zero exit as an error result, so the fused call returns an error result (`isError: true`). It keeps the mutation's text and details, including the edit diff, and adds a `[then_run:failed]` block followed by the command output.
 - **Every version** — a timeout or an abort fails the call with an error that keeps the mutation output.
-- **A command killed by a signal** — Pi 0.84.2's bash gets no exit code for it and reports the command as successful, so the fused call reports `[then_run:succeeded]` with the output so far. Pi 0.86 and later report it as a failure; on Pi 1.0.x the shell reports exit code 128 plus the signal number, so the fused call fails like any other non-zero exit.
+- **A command killed by a signal** — Pi 0.84.2's bash gets no exit code for it and reports the command as successful, so the fused call reports `[then_run:succeeded]` with the output so far. Pi 0.86 and later report it as a failure; on Pi 1.x the shell reports exit code 128 plus the signal number, so the fused call fails like any other non-zero exit.
 
 If the mutation fails, the command is not run and the call fails with `[then_run:skipped]`.
 
 ## ObservationPack
 
-ObservationPack changes only the messages projected through the public `context` event. Pi passes `context` handlers a cloned copy of the conversation, so stored session history remains intact. ObservationPack replaces the content of those message objects in place and returns nothing. Since Pi 0.87, a handler that returns different message objects makes Pi merge every mid-conversation system message, such as prompt sections and tool-declaration deltas, into one leading system message, which breaks the provider's cached prefix on every later request. The in-place edit keeps those messages where they are on Pi 1.0.x and behaves the same on Pi 0.84.2.
+ObservationPack changes only the messages projected through the public `context` event. Pi passes `context` handlers a cloned copy of the conversation, so stored session history remains intact. ObservationPack replaces the content of those message objects in place and returns nothing. Since Pi 0.87, a handler that returns different message objects makes Pi merge every mid-conversation system message, such as prompt sections and tool-declaration deltas, into one leading system message, which breaks the provider's cached prefix on every later request. The in-place edit keeps those messages where they are on Pi 1.x and behaves the same on Pi 0.84.2.
 
 Original bytes and the JSONL ledger live under the session-derived SoL-Pi directory.
 
@@ -68,11 +68,11 @@ Original bytes and the JSONL ledger live under the session-derived SoL-Pi direct
 
 The reducer handles public `tool_result` events and resolves the configured reducer provider/model through Pi's model registry before calling `ExtensionContext.modelRegistry.complete()`, which Pi 0.84.2 and 1.0.x provide. The reducer preserves the original result whenever the configured reducer model is unavailable or eligibility, model-call, schema, source-hash, exact-quote, size, or likely-secret checks fail.
 
-Candidates are bash results and edit/write results that carry `then_run`. Pi 1.0.x marks a call that another tool made through `ctx.executeTool()`, such as a codemode script call, with `parentToolCallId`. The reducer ignores such results without archiving, journaling, or calling a model: they never enter the transcript, so reducing them would save no context, and they keep their `structuredContent`. The `codemode` tool's own result is never a candidate.
+Candidates are bash results and edit/write results that carry `then_run`. Pi 1.x marks a call that another tool made through `ctx.executeTool()`, such as a codemode script call, with `parentToolCallId`. The reducer ignores such results without archiving, journaling, or calling a model: they never enter the transcript, so reducing them would save no context, and they keep their `structuredContent`. The `codemode` tool's own result is never a candidate.
 
 A receipt's status follows the result's `isError` flag. The reducer also reads the result's own exit signal from the inline text, not from Pi's full-output temporary file, which lacks the status line:
 
-- `structuredContent.exit_code` on Pi 1.0.x bash results;
+- `structuredContent.exit_code` on Pi 1.x bash results;
 - otherwise a trailing `Command exited with code N` line;
 - for fused results, the first `[then_run:failed]` or `[then_run:succeeded]` marker, with a trailing non-zero `Command exited with code N` line also counting as a failure.
 
@@ -84,16 +84,16 @@ The unpublished shared artifact layout is not read or migrated. Each persistent 
 
 ## Online Context Compact
 
-Online Context Compact uses ordinary public `context` handlers instead of fork-only post-transform observer methods, plus `session_before_compact` as described below. Public handlers run in extension load order, so the SoL-Pi entrypoint registers Online Context Compact after its other context transformers. A third-party transformer loaded later is outside the context-growth observation used by its estimate. Pi 1.0.x does not show system messages to `context` handlers, so mid-conversation system messages are outside that estimate until Pi reports provider-counted usage for the next request.
+Online Context Compact uses ordinary public `context` handlers instead of fork-only post-transform observer methods, plus `session_before_compact` as described below. Public handlers run in extension load order, so the SoL-Pi entrypoint registers Online Context Compact after its other context transformers. A third-party transformer loaded later is outside the context-growth observation used by its estimate. Pi 1.x does not show system messages to `context` handlers, so mid-conversation system messages are outside that estimate until Pi reports provider-counted usage for the next request.
 
 It counts a provider request only when it carries an agent-loop context: a `context` event marks the next `before_provider_request` as a request, and the assistant `message_end` that ends that request clears the mark. Each agent request therefore counts once, as in SoL-Pi 0.1.0, on every supported Pi version. It does not count:
 
 - **Builds that never reach the provider.** After a boundary stop, Pi 0.84.2 and 1.0.x still build one more request for the aborted run; its `context` event arrives with an aborted signal and Pi rejects the request before calling the provider. The same holds for any build that fails before the provider is called.
-- **Pi 1.0 cache-warming replays.** They re-send the last request through `before_provider_request` without a `context` event.
+- **Pi 1.x cache-warming replays.** They re-send the last request through `before_provider_request` without a `context` event.
 
 Session start, tree navigation, compaction, and shutdown clear a pending mark. Pi's built-in providers emit `before_provider_request` by calling `onPayload`, and Pi's custom-provider guide requires custom providers to call it too. Requests to a provider that does not call it are never counted.
 
-The native cut is estimated from Pi's canonical session projection when available (Pi 1.0), and from raw session entries on Pi 0.84.2. Removable-token savings are measured from corresponding messages in the latest observed extension projection. ObservationPack placeholders are therefore priced at their projected size, context edits are applied before choosing the cut, and retained system checkpoints are excluded from savings. Dropped messages, unseen additions, and ambiguous matches contribute no proven savings; the estimator never substitutes their raw byte counts or reruns context hooks. Pi's special recovery-omission suffix can allow a larger removable prefix than the public cut-point helper predicts; OCC conservatively underestimates savings in that case.
+The native cut is estimated from Pi's canonical session projection when available (Pi 1.x), and from raw session entries on Pi 0.84.2. Removable-token savings are measured from corresponding messages in the latest observed extension projection. ObservationPack placeholders are therefore priced at their projected size, context edits are applied before choosing the cut, and retained system checkpoints are excluded from savings. Dropped messages, unseen additions, and ambiguous matches contribute no proven savings; the estimator never substitutes their raw byte counts or reruns context hooks. Pi's special recovery-omission suffix can allow a larger removable prefix than the public cut-point helper predicts; OCC conservatively underestimates savings in that case.
 
 Compaction preserves the current plan, request-horizon samples, and context-growth history. Every plan update uses the same step-ID/status comparison, including the first update after compaction. A boundary requires a previously registered unfinished step to become completed. Newly introduced completed IDs establish history without creating a boundary, so re-keyed completed snapshots do not retrigger compaction. An assistant must register a step before completing it to make that completion eligible for OCC. Economic compaction has a two-provider-request cooldown; context-window protection can override it. A new user task following a fully completed plan resets the request-horizon samples while preserving unpaid cache debt.
 
@@ -112,7 +112,7 @@ How the continuation settles depends on the Pi version. Either way, print- and J
 
 While a boundary compaction is selected, from the boundary's stop until the `agent_settled` that runs it, Online Context Compact cancels Pi's own threshold compaction (`session_before_compact` with reason `"threshold"`). Otherwise Pi could run it for the stopped run first and consume the selection, leaving the boundary without a continuation. Manual and overflow compactions are never cancelled.
 
-On Pi 0.84.2, the session reports idle while an extension-requested manual compaction is running. SoL-Pi cancels `session_before_tree` during that interval to prevent tree navigation from moving the active leaf underneath the compaction. Pi 1.0.x itself refuses tree navigation during a compaction. Navigation works normally after the compaction callback settles.
+On Pi 0.84.2, the session reports idle while an extension-requested manual compaction is running. SoL-Pi cancels `session_before_tree` during that interval to prevent tree navigation from moving the active leaf underneath the compaction. Pi 1.x itself refuses tree navigation during a compaction. Navigation works normally after the compaction callback settles.
 
 Online Context Compact reads `ExtensionContext.getContextUsage()` for both the context window and the provider-counted context size. When Pi reports no size — as it does between a compaction and the next answered request — the boundary falls back to its own estimate.
 
@@ -120,7 +120,7 @@ The standalone entry passes `cacheWriteReadRatio` from `sol-pi.json` directly in
 
 ## Codemode
 
-Pi 1.0.x codemode lets the model run a script that calls other tools through `ctx.executeTool()`. With `codemode.mode: "on"`, declared tools stay declared and are also callable from scripts. With `"only"`, they are hidden from the model and listed in the `codemode` tool description instead. Calls made from a script get the id `<codemode call id>/<n>`, and their results reach only the script, not the transcript. Every mechanism loads and runs in both modes:
+Pi 1.x codemode lets the model run a script that calls other tools through `ctx.executeTool()`. With `codemode.mode: "on"`, declared tools stay declared and are also callable from scripts. With `"only"`, they are hidden from the model and listed in the `codemode` tool description instead. Calls made from a script get the id `<codemode call id>/<n>`, and their results reach only the script, not the transcript. Every mechanism loads and runs in both modes:
 
 | Mechanism | `codemode.mode: "on"` | `codemode.mode: "only"` |
 |---|---|---|
