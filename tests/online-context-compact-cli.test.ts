@@ -5,12 +5,13 @@
 import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import { SessionManager } from "@earendil-works/pi-coding-agent";
 import { fauxAssistantMessage } from "@earendil-works/pi-ai/providers/faux";
 import { expect, it } from "vitest";
+import { piCliPath } from "./helpers.ts";
 import {
 	BOUNDARY_COMPACTION_INSTRUCTIONS,
 	POST_COMPACTION_PLAN_REMINDER,
@@ -82,9 +83,8 @@ export default function (pi) {
 `);
 
 		// Use the locally installed Pi CLI, not a global executable or SDK prompt().
-		const piDist = dirname(fileURLToPath(import.meta.resolve("@earendil-works/pi-coding-agent")));
 		const running = promisify(execFile)(process.execPath, [
-			join(piDist, "bundle/cli.js"), "--offline", "--approve", "--print", "--mode", "text",
+			piCliPath(), "--offline", "--approve", "--print", "--mode", "text",
 			"--no-extensions", "--no-skills", "--no-prompt-templates", "--no-themes", "--no-context-files",
 			"--extension", extensionPath,
 			"--provider", "sol-pi-occ-cli", "--model", "occ-cli-model", "--thinking", "off",

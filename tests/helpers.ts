@@ -5,8 +5,10 @@
 import type { AgentMessage } from "@earendil-works/pi-agent-core";
 import type { ExtensionAPI, ExtensionContext, SessionEntry, Theme, ToolDefinition } from "@earendil-works/pi-coding-agent";
 import type { Component } from "@earendil-works/pi-tui";
+import { readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 type Handler = (event: unknown, context: ExtensionContext) => unknown | Promise<unknown>;
 
@@ -258,4 +260,16 @@ export function fakeContext(
 		getSystemPrompt: () => "",
 		...overrides,
 	} as unknown as ExtensionContext;
+}
+
+/**
+ * The installed Pi CLI entrypoint, read from the package's `pi` bin: `dist/bundle/cli.js` on Pi 1.x,
+ * `dist/cli.js` on Pi 0.84.2.
+ */
+export function piCliPath(): string {
+	const root = dirname(dirname(fileURLToPath(import.meta.resolve("@earendil-works/pi-coding-agent"))));
+	const manifest = JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as { bin?: string | Record<string, string> };
+	const bin = typeof manifest.bin === "string" ? manifest.bin : manifest.bin?.pi;
+	if (!bin) throw new Error("@earendil-works/pi-coding-agent declares no pi bin");
+	return join(root, bin);
 }

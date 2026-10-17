@@ -5,7 +5,7 @@
 import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import {
@@ -19,6 +19,7 @@ import {
 import { fauxAssistantMessage, fauxProvider, fauxToolCall } from "@earendil-works/pi-ai/providers/faux";
 import { expect, it } from "vitest";
 import { DEFAULT_CONFIG } from "../src/sol-pi/config.ts";
+import { piCliPath } from "./helpers.ts";
 
 it.each([
 	{ storage: "persistent", exitCode: 0 },
@@ -134,9 +135,8 @@ it.each([false, true])("starts and shuts down the offline RPC CLI without a prom
 			evidencePreservingReducer: allEnabled,
 			onlineContextCompact: allEnabled,
 		}));
-		const piDist = dirname(fileURLToPath(import.meta.resolve("@earendil-works/pi-coding-agent")));
 		const running = promisify(execFile)(process.execPath, [
-			join(piDist, "bundle/cli.js"), "--offline", "--approve", "--no-session", "--mode", "rpc",
+			piCliPath(), "--offline", "--approve", "--no-session", "--mode", "rpc",
 			"--no-extensions", "--no-skills", "--no-prompt-templates", "--no-themes", "--no-context-files",
 			"-e", join(process.cwd(), "src/sol-pi/index.ts"),
 		], {
@@ -195,9 +195,8 @@ export default function (pi) {
 	});
 }
 `);
-		const piDist = dirname(fileURLToPath(import.meta.resolve("@earendil-works/pi-coding-agent")));
 		const running = promisify(execFile)(process.execPath, [
-			join(piDist, "bundle/cli.js"), "--offline", "--approve", "--no-session",
+			piCliPath(), "--offline", "--approve", "--no-session",
 			"--no-extensions", "--no-skills", "--no-prompt-templates", "--no-themes",
 			"-e", join(process.cwd(), "src/sol-pi/index.ts"), "-e", providerPath,
 			"--provider", "sol-pi-no-session-test", "--model", "ephemeral",

@@ -6,10 +6,11 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { CONFIG_DIR_NAME, type ExtensionAPI, type ExtensionToolContext, type ToolDefinition } from "@earendil-works/pi-coding-agent";
+import { CONFIG_DIR_NAME, type ExtensionAPI, type ToolDefinition } from "@earendil-works/pi-coding-agent";
 import { DEFAULT_CONFIG } from "../src/sol-pi/config.ts";
 import { registerConfiguredFeatures } from "../src/sol-pi/index.ts";
 import { loadActionFusionBashOptions } from "../src/sol-pi/shell-options.ts";
+import type { ToolExecuteContext } from "./helpers.ts";
 
 const roots: string[] = [];
 function fixture() {
@@ -86,7 +87,7 @@ describe("Action Fusion inherits Pi shell settings", () => {
 		const ctx = {
 			mode: "json", hasUI: false, cwd, model: undefined, ui: {},
 			sessionManager: { getSessionFile: () => undefined, getSessionId: () => "shell-options-test" },
-		} as unknown as ExtensionToolContext;
+		} as unknown as ToolExecuteContext;
 		const result = await tool.execute("write-shell-options", {
 			path: "native.txt", content: "native\n", then_run: { command: "printf native" },
 		}, undefined, undefined, ctx);
