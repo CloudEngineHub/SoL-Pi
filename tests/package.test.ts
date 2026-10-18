@@ -202,6 +202,24 @@ describe("Pi compatibility check", { timeout: 30_000 }, () => {
 		expect(strict.status, strict.output).toBe(1);
 	});
 
+	it("warns when Pi's internal packages come from another release", () => {
+		// Pi before 1.3.0 depends on its internal packages with caret ranges, so a fresh install of
+		// Pi 1.0.4 now gets pi-codemode 1.3.0 and fails to load.
+		const version = realVersion();
+		const root = fakePi(version, "*");
+		const scope = join(root, "node_modules", "@earendil-works");
+		const manifestPath = join(scope, "pi-coding-agent", "package.json");
+		const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as Record<string, unknown>;
+		writeFileSync(manifestPath, JSON.stringify({ ...manifest, dependencies: { "@earendil-works/pi-codemode": `^${version}` } }));
+		mkdirSync(join(scope, "pi-codemode"));
+		writeFileSync(join(scope, "pi-codemode", "package.json"), JSON.stringify({ name: "@earendil-works/pi-codemode", version: "99.0.0" }));
+		const relaxed = checkPiCompat("--pi-root", root);
+		expect(relaxed.status, relaxed.output).toBe(0);
+		expect(relaxed.output).toContain(`WARN: Pi ${version} is installed with internal packages from other releases (pi-codemode 99.0.0)`);
+		const strict = checkPiCompat("--pi-root", root, "--strict");
+		expect(strict.status, strict.output).toBe(1);
+	});
+
 	it("fails when a Pi export SoL-Pi imports is missing", () => {
 		const result = checkPiCompat("--pi-root", fakePi("1.0.4", "{ VERSION, CONFIG_DIR_NAME }"));
 		expect(result.status, result.output).toBe(1);

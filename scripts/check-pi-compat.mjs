@@ -29,6 +29,9 @@
  *     it is by Pi's extension loader. Without typescript installed every imported name is checked,
  *     with a warning. (`@earendil-works/pi-ai` is checked against its compat entrypoint, as Pi's
  *     loader aliases it.)
+ *   - Pi's own @earendil-works/pi-* dependencies are installed at pi-coding-agent's version. Pi before
+ *     1.3.0 does not pin them, so a fresh install of Pi 1.0.x or 1.1.0 now mixes in newer ones and fails to
+ *     load. A mismatch is a warning.
  *   - Methods SoL-Pi calls on Pi objects (ModelRegistry, SessionManager, SettingsManager).
  *   - Reports how bash reports a non-zero exit (throws "Command exited with code N" on Pi <= 0.98,
  *     returns an isError result on Pi >= 0.99; SoL-Pi handles both) and whether the built-in
@@ -209,6 +212,22 @@ async function loadModule(piDir, specifier) {
 	return modules.get(specifier);
 }
 
+/**
+ * Pi's own `@earendil-works/pi-*` dependencies whose installed version differs from pi-coding-agent's.
+ * Releases before Pi 1.3.0 declare them with caret ranges, so a fresh install now pulls the newest
+ * internals; Pi 1.0.x and 1.1.0 then fail to load. Pi 1.3.0 pins them exactly.
+ */
+function mixedInternalPackages(piDir, version) {
+	const dependencies = readJson(join(piDir, "package.json")).dependencies ?? {};
+	return Object.keys(dependencies)
+		.filter((name) => name.startsWith("@earendil-works/pi-"))
+		.flatMap((name) => {
+			const dir = findPackageDir(name, piDir);
+			const installed = dir ? readJson(join(dir, "package.json")).version : undefined;
+			return installed && installed !== version ? [`${name.slice("@earendil-works/".length)} ${installed}`] : [];
+		});
+}
+
 async function checkPi() {
 	const piDir = isPackageDir(searchRoot, PI_CODING_AGENT) ? searchRoot : findPackageDir(PI_CODING_AGENT, searchRoot);
 	if (!piDir) {
@@ -222,6 +241,14 @@ async function checkPi() {
 		errors.push(`Pi ${version} is below the supported floor ${PI_FLOOR}`);
 	} else if (!TESTED_PI_VERSIONS.includes(version)) {
 		warnings.push(`Pi ${version} is not in the tested set (${TESTED_PI_VERSIONS.join(", ")}); API checks still apply`);
+	}
+	const mixed = mixedInternalPackages(piDir, version);
+	if (mixed.length > 0) {
+		warnings.push(
+			`Pi ${version} is installed with internal packages from other releases (${mixed.join(", ")}). ` +
+				`Pi releases before 1.3.0 do not pin them, so a fresh install mixes versions and Pi 1.0.x and 1.1.0 fail to load; ` +
+				`install Pi 1.3.0, or pin each of these packages to ${version}`,
+		);
 	}
 
 	for (const [specifier, names] of piValueImports()) {

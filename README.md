@@ -68,7 +68,7 @@ Read our paper: [SoL-Pi: Recursively Scaling Auto-Research Loops for Efficient A
 
 - Node.js 22.19 or newer
 - npm
-- `@earendil-works/pi-coding-agent` 0.84.2 or newer; tested with 0.84.2, 1.0.4, and 1.3.0. Other versions are untested: `scripts/check-pi-compat.mjs` warns on them, and `--strict` fails.
+- `@earendil-works/pi-coding-agent` 0.84.2 or newer; tested with 0.84.2, 1.0.4, and 1.3.0. Install 1.3.0: a fresh install of Pi 1.0.x or 1.1.0 now fails to start, because those releases do not pin their internal packages. Other versions are untested: `scripts/check-pi-compat.mjs` warns on them, and `--strict` fails.
 
 ### Install
 
@@ -167,7 +167,7 @@ npm audit --audit-level=high
 npm run check:pi
 ```
 
-`npm run check` covers TypeScript, the complete test suite, and package inspection. `npm run check:pi` runs `scripts/check-pi-compat.mjs` against the development dependency; pass `-- --strict` to fail on warnings, or `-- --pi-root <dir>` to check another Pi installation. The development dependency set is pinned to Pi 1.3.0. To check another tested Pi version, install its four Pi packages over the development dependency and rerun the checks; runtime Pi packages remain peer dependencies so Pi owns their installation and upgrades.
+`npm run check` covers TypeScript, the complete test suite, and package inspection. `npm run check:pi` runs `scripts/check-pi-compat.mjs` against the development dependency; pass `-- --strict` to fail on warnings, or `-- --pi-root <dir>` to check another Pi installation. The development dependency set is pinned to Pi 1.3.0. To check another tested Pi version, install its four Pi packages over the development dependency (for 1.0.4 also `pi-codemode`, `pi-mcp` and `chord` at 1.0.4) and rerun the checks; runtime Pi packages remain peer dependencies so Pi owns their installation and upgrades.
 
 ## Project Status
 
