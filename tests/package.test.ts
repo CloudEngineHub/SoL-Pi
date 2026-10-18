@@ -98,7 +98,9 @@ function checkPiCompat(...args: string[]): { status: number | null; output: stri
 	return runScript("scripts/check-pi-compat.mjs", args);
 }
 
-describe("Pi compatibility check", () => {
+// Every check starts a Node process that loads Pi; on slow shared file systems that takes longer than
+// Vitest's 5 s default.
+describe("Pi compatibility check", { timeout: 30_000 }, () => {
 	const baseline = checkPiCompat();
 	const detected = /^Pi: @earendil-works\/pi-coding-agent@(\S+) \((.+)\)$/m.exec(baseline.output);
 	const roots: string[] = [];
